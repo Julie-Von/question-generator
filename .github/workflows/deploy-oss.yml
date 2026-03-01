@@ -1,4 +1,4 @@
-name: Deploy to Aliyun OSS
+name: Deploy to Tencent COS
 
 on:
   push:
@@ -23,14 +23,15 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: Deploy to Aliyun OSS
-        uses: fangbinwei/aliyun-oss-website-action@v1
-        with:
-          accessKeyId: ${{ secrets.OSS_ACCESS_KEY_ID }}
-          accessKeySecret: ${{ secrets.OSS_ACCESS_KEY_SECRET }}
-          bucket: ${{ secrets.OSS_BUCKET }}
-          endpoint: ${{ secrets.OSS_ENDPOINT }}
-          folder: dist
-          # 清理 OSS 上旧文件（不在 dist/ 中的文件将被删除）
-          # 注意：index.html 不缓存，assets/ 长期缓存
-          incremental: false
+      - name: Install coscmd
+        run: pip install coscmd
+
+      - name: Deploy to Tencent COS
+        env:
+          SECRET_ID: ${{ secrets.TENCENT_SECRET_ID }}
+          SECRET_KEY: ${{ secrets.TENCENT_SECRET_KEY }}
+          COS_BUCKET: ${{ secrets.COS_BUCKET }}
+          COS_REGION: ${{ secrets.COS_REGION }}
+        run: |
+          coscmd config -a "$SECRET_ID" -s "$SECRET_KEY" -b "$COS_BUCKET" -r "$COS_REGION"
+          coscmd upload -r dist/ /
