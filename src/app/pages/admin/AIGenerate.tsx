@@ -284,7 +284,7 @@ export default function AIGenerate() {
                       </div>
                       <p className="text-sm font-medium text-[#1e293b] mb-2">{q.content}</p>
                       <div className="flex flex-col gap-1">
-                        {q.options.map(opt => (
+                        {q.options?.map(opt => (
                           <div
                             key={opt.id}
                             className={[

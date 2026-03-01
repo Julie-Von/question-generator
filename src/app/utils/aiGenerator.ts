@@ -77,6 +77,7 @@ function buildPrompt(config: GenerateConfig): string {
     single: '单选题（4个选项，1个正确答案）',
     multiple: '多选题（4个选项，2-3个正确答案）',
     truefalse: '判断题（正确/错误）',
+    short: '简答题',
     mixed: '混合类型（单选为主，适量多选和判断题）',
   }[config.questionType]
 
